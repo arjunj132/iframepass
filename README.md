@@ -36,3 +36,11 @@ See the difference? See `example.html` for more info.
 Note that this may not work with every single webpage and going to another webpage from the iFrame removes the pass due to cross origin issues.
 
 Also note that try not to use this product if you can due to problems that can occur.
+
+To use, just plugin this into the END OF THE BODY, right before `</body>`:
+
+```html
+<script src="https://arjunj132.github.io/iframepass/iframepass.js"></script>
+```
+
+Then every iframe in your body gets the iFramePass.
