@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>iFramePass - x-frame-options bypass</title>
+</head>
+<body>
+<iframe src="https://www.google.com" width="500" height="500"></iframe>
+<!--
+Hello! This is iFramePass, a simple script that allows you to skip x-frame-options restrictions on you iframe. 
+
+
+If you get an error like this:
+
+www.google.com refused to connect.
+
+Try running your iframe with the below code.
+
+This code may not work when iFrames go to a different page.
+
+Try copying this HTML into another code editor like JSFiddle (https://jsfiddle.net/) and see if google.com loads!
+
+The below code (<script> tag) requires not modification. Just create a iframe and watch it work!
+
+Try testing it out!
+-->
+
+<script>
+
+/*
+iFramePass
+(c) Arjun J
+*/
+
+
+// change proxy here:
+proxy = "https://proxy.arjunjakkipally.repl.co/"
+
+// iframes
+frames = document.getElementsByTagName("iframe");
+
+
+urlloaded = []
+// add iframepass for every frame
+for (let i = 0; i < frames.length; i++) {
+	console.log("iFramePass:\nApplying iFramePass to " + frames[i].src)
+	frames[i].srcdoc = `<span style='font-family: "Helvetica", sans-serif;'><center><span style="color: DodgerBlue;">i</span><span style="color: grey;">FramePass</span></center></span>`
+  fetch(proxy + frames[i].src.replace("https://", "").replace("http://", ""))
+      .then((response) => response.text())
+      .then((data) => {
+      	  urlloaded.push(false)
+          frames[i].srcdoc = data.replace(/<head([^>]*)>/i, `<head$1><base href="${frames[i].src}">`)
+          frames[i].setAttribute("data-iframepass", i)
+          frames[i].setAttribute("onLoad", "loadnewurl(this)")
+      });
+}
+
+// handle loading url
+function loadnewurl(elem) {
+	if (urlloaded[parseInt(elem.getAttribute("data-iframepass"))] == false) {
+    	console.log("iFramePass:\nloaded url")
+        urlloaded[parseInt(elem.getAttribute("data-iframepass"))] = true
+    } else {
+    	console.log("==================")
+    	console.log("IMPORTANT:\nThe URL has been changed. iFramePass is not applied anymore due to crossorigin reasons.")
+        console.log("==================")
+    }
+}
+
+</script>
+</body>
+</html>
