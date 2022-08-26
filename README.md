@@ -44,3 +44,4 @@ To use, just plugin this into the END OF THE BODY, right before `</body>`:
 ```
 
 Then every iframe in your body gets the iFramePass.
+Each iframe loads one at a time.
